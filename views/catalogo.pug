@@ -7,12 +7,13 @@ block content
       each producto in productos
         .producto
           img(src=`/images/${producto.imagen}`, alt=producto.nombre)
-          h2= producto.nombre
-          p= producto.descripcion
-          p Disponible: #{producto.cantidad}
-          p Precio: #{producto.precio}
-          form(action=`/agregar-al-carrito/${producto.id}`, method='POST')
-            button(type='submit')
-              img.mas(src="../images/agregar.png", alt="Agregar al carrito")
+          .textoProducto
+            h2= producto.nombre
+            p= producto.descripcion
+            p Disponible: #{producto.cantidad}
+            p Precio: #{producto.precio}
+            form.agregarForm(action=`/agregar-al-carrito/${producto.id}`, method='POST')
+              button(type='submit')
+                img.agregar(src="../images/agregar.png", alt="Agregar al carrito")
   else
     p No se encontraron resultados.
