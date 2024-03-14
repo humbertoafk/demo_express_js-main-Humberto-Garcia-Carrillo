@@ -1,0 +1,21 @@
+// layout.pug
+doctype html
+html
+  head
+    title #{title}
+    link(rel='stylesheet', href='/css/styles.css')
+  body
+    nav
+      ul
+        li
+          a(href='/') Inicio
+        li
+          a(href='/catalogo') Catálogo de Productos
+        li
+          a(href='/iniciar-sesion') Iniciar sesión
+        li.last-li
+          a(href='/carrito') #{carrito.length}
+            img.carritoImg(src="../images/shopping-cart1.png", alt="Bolsa de compras")
+
+    .container
+      block content

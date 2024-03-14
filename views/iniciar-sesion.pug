@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1 #{title}
+  
+  h2 Usuario = 1 | Contraseña = 1
+  form(action='/iniciar-sesion', method='POST')
+    div.form-group
+      label(for='usuario') Usuario:
+      input#usuario.form-control(type='text', name='usuario', required)
+    div.form-group
+      label(for='contrasena') Contraseña:
+      input#contrasena.form-control(type='password', name='contrasena', required)
+    button.btn.btn-primary(type='submit') Iniciar sesión
+  
+
+  if error
+    p.error= error
+
+  if session.isLoggedIn
+    p Sesión iniciada con éxito
