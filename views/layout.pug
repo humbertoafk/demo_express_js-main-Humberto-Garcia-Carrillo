@@ -1,4 +1,3 @@
-// layout.pug
 doctype html
 html
   head
@@ -11,11 +10,18 @@ html
           a(href='/') Inicio
         li
           a(href='/catalogo') Catálogo de Productos
-        li
-          a(href='/iniciar-sesion') Iniciar sesión
-        li.last-li
-          a(href='/carrito') #{carrito.length}
-            img.carritoImg(src="../images/shopping-cart1.png", alt="Bolsa de compras")
+        if session.isLoggedIn
+          li
+            a(href='/cerrar-sesion') Cerrar sesión
+          li.last-li
+            a(href='/carrito') #{carrito.length}
+              img.carritoImg(src="../images/shopping-cart1.png", alt="Bolsa de compras")
+        else
+          li
+            a(href='/iniciar-sesion') Iniciar sesión
+          li.last-li
+            a(href='/carrito') #{carrito.length}
+              img.carritoImg(src="../images/shopping-cart1.png", alt="Bolsa de compras")
 
     .container
       block content

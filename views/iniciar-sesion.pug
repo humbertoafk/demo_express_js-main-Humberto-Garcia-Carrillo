@@ -12,10 +12,3 @@ block content
       label(for='contrasena') Contraseña:
       input#contrasena.form-control(type='password', name='contrasena', required)
     button.btn.btn-primary(type='submit') Iniciar sesión
-  
-
-  if error
-    p.error= error
-
-  if session.isLoggedIn
-    p Sesión iniciada con éxito

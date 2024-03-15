@@ -28,13 +28,14 @@ app.use(express.json());
 
 // Ruta para la página de inicio
 app.get('/', (req, res) => {
-    res.render('index', { title: 'Página de Bienvenida' });
+    res.render('index', { title: 'Página de Bienvenida', session: req.session } );
 }); 
 
 // Ruta para la página de inicio de sesión
 app.get('/iniciar-sesion', (req, res) => {
     res.render('iniciar-sesion', { title: 'Inicio de Sesión', session: req.session });
 });
+
 // Procesamiento del formulario de inicio de sesión
 app.post('/iniciar-sesion', (req, res) => {
     const { usuario, contrasena } = req.body;
@@ -44,10 +45,10 @@ app.post('/iniciar-sesion', (req, res) => {
     if (user) {
         // Autenticación exitosa, establece una bandera en la sesión para indicar que el usuario ha iniciado sesión
         req.session.isLoggedIn = true;
-        res.redirect('/catalogo'); // Redirige al perfil del usuario o a la página que desees después del inicio de sesión
+        res.render('', { title: 'Inicio de sesión exitoso', session: req.session }); // Redirige al perfil del usuario o a la página que desees después del inicio de sesión
     } else {
         // Autenticación fallida, renderiza nuevamente el formulario de inicio de sesión con un mensaje de error
-        res.render('iniciar-sesion', { title: 'Inicio de Sesión', error: 'Usuario o contraseña incorrectos' });
+        res.render('iniciar-sesion', { title: 'Inicio de Sesión fallido', session: req.session });
     }
 });
 
@@ -56,17 +57,17 @@ app.get('/carrito', (req, res) => {
     // Verifica si el usuario ha iniciado sesión
     if (req.session.isLoggedIn) {
       let carrito = req.session.carrito || []; // Obtiene el carrito de la sesión del usuario, si no existe, crea un nuevo carrito vacío
-      res.render('carrito', { title: 'Mi carrito', carrito });
+      res.render('carrito', { title: 'Mi carrito', carrito, session: req.session });
     } else {
       // Si el usuario no ha iniciado sesión, redirige al inicio de sesión
-      res.redirect('/iniciar-sesion');
+      res.render('iniciar-sesion', { title: 'Para entrar al carrito, inicie sesión', session: req.session });
     }
 });
 
 // Ruta para el catálogo de productos
 app.get('/catalogo', (req, res) => {
     const productos = productosController.getProductos();
-    res.render('catalogo', { title: 'Catálogo de Productos', productos });
+    res.render('catalogo', { title: 'Catálogo de Productos', productos, session: req.session });
 });
 
 // Ruta para buscar productos
@@ -76,7 +77,7 @@ app.get('/buscar-producto', (req, res) => {
     const productosFiltrados = productos.filter(producto =>
         producto.nombre.toLowerCase().includes(query) || producto.descripcion.toLowerCase().includes(query)
     );
-    res.render('catalogo', { title: 'Resultados de la Búsqueda', productos: productosFiltrados });
+    res.render('catalogo', { title: 'Resultados de la Búsqueda', productos: productosFiltrados, session: req.session });
 });
 
 
@@ -110,13 +111,18 @@ app.post('/agregar-al-carrito/:id', (req, res) => {
 // Ruta para el detalle de compra
 app.get('/detalle-compra', (req, res) => {
     let carrito = req.session.carrito || []; // Obtiene el carrito de la sesión del usuario, si no existe, crea un nuevo carrito vacío
-    res.render('detalle-compra', { title: 'Detalle de Compra', carrito});
+    res.render('detalle-compra', { title: 'Detalle de Compra', carrito, session: req.session});
 });
 
 // Ruta para el inicio de sesión
 app.get('/iniciar-sesion', (req, res) => {
     let carrito = req.session.carrito || []; // Obtiene el carrito de la sesión del usuario, si no existe, crea un nuevo carrito vacío
-    res.render('iniciar-sesion', { title: 'Inicio de sesión'});
+    res.render('iniciar-sesion', { title: 'Inicio de sesión', session: req.session});
+});
+
+app.get('/cerrar-sesion', (req, res) => {
+    req.session.destroy(); // Borra la sesión
+    res.redirect('/'); // Redirige al usuario a la página de inicio u otra página que prefieras
 });
 
 // Ruta para actualizar la cantidad de un producto en el carrito
@@ -167,7 +173,7 @@ app.post('/procesar-compra', (req, res) => {
     // Vaciar el carrito después de procesar la compra
     req.session.carrito = [];
     
-    res.render('confirmacion-compra', { title: '¡Compra Exitosa!' });
+    res.render('confirmacion-compra', { title: '¡Compra Exitosa!', session: req.session });
 });
   
 // Puerto en el que escucha el servidor
