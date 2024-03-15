@@ -44,7 +44,7 @@ app.post('/iniciar-sesion', (req, res) => {
     if (user) {
         // Autenticación exitosa, establece una bandera en la sesión para indicar que el usuario ha iniciado sesión
         req.session.isLoggedIn = true;
-        res.redirect('/carrito'); // Redirige al perfil del usuario o a la página que desees después del inicio de sesión
+        res.redirect('/catalogo'); // Redirige al perfil del usuario o a la página que desees después del inicio de sesión
     } else {
         // Autenticación fallida, renderiza nuevamente el formulario de inicio de sesión con un mensaje de error
         res.render('iniciar-sesion', { title: 'Inicio de Sesión', error: 'Usuario o contraseña incorrectos' });

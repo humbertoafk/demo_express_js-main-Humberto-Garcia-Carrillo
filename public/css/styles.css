@@ -187,7 +187,7 @@ p.empty-cart {
 .search-bar button {
   padding: 8px 15px;
   margin-left: 10px;
-  background-color: #333;
+  background-color: #ffbcd4;
   color: white;
   border: none;
   border-radius: 5px;
@@ -195,7 +195,7 @@ p.empty-cart {
   transition: background-color 0.3s;
 }
 .search-bar button:hover {
-  background-color: #555;
+  background-color: #ef4f84;
 }
 
 .producto-container {
